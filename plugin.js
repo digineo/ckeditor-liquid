@@ -1,7 +1,7 @@
 CKEDITOR.plugins.add('liquid', {
-	requires: ['htmldataprocessor'],
-	afterInit: function(editor){
-		editor.addCss('liquidVariable, liquidBlock' +
+	onLoad: function()
+	{
+		CKEDITOR.addCss('liquidVariable, liquidBlock' +
 		'{' +
 			'color: #000;' +
 			'background-color: #ffc;' +
@@ -13,16 +13,19 @@ CKEDITOR.plugins.add('liquid', {
 		'{' +
 			'background-color: #fcc;' +
 		'}');
-		
-		var dataProcessor = editor.dataProcessor, dataFilter = dataProcessor && dataProcessor.dataFilter, htmlFilter = dataProcessor && dataProcessor.htmlFilter;
+	},
+	init: function(editor)
+	{
+		var dataProcessor = editor.dataProcessor,
+			dataFilter = dataProcessor && dataProcessor.dataFilter,
+			htmlFilter = dataProcessor && dataProcessor.htmlFilter;
 		
 		// html to data conversion
 		if (dataFilter) {
 			dataFilter.addRules({
-			
-				text: function(text){
-					text = text.replace(/\{\{([\w\.]+)\}\}/g, "<liquidVariable>$1</liquidVariable>");
-					text = text.replace(/\{%(.+)%\}/g, "<liquidBlock>$1</liquidBlock>");
+				text: function(text) {
+					text = text.replace(/\{\{([\w\.]+)\}\}/g, "<liquidVariable>{{$1}}</liquidVariable>");
+					text = text.replace(/\{%(.+)%\}/g, "<liquidBlock>{%$1%}</liquidBlock>");
 					return text;
 				}
 			});
@@ -36,20 +39,20 @@ CKEDITOR.plugins.add('liquid', {
 						// Drop the wrapper element. 
 						delete element.name;
 						
-						if (element.children.size() > 0) {
-							element.children[0].value = "{{" + element.children[0].value + "}}"
+						if (element.children.length > 0) {
+							element.children[0].value = element.children[0].value;
 						}
 					},
 					liquidblock: function(element, b, c){
 						// Drop the wrapper element. 
 						delete element.name;
 						
-						if (element.children.size() > 0) {
-							element.children[0].value = "{%" + element.children[0].value + "%}"
+						if (element.children.length > 0) {
+							element.children[0].value = element.children[0].value;
 						}
 					}
 				}
 			});
 		}
-	},
+	}
 });

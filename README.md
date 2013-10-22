@@ -1,4 +1,4 @@
-# Liquid Markup Plugin for CKEditor 3.x
+# Liquid Markup Plugin for CKEditor 4.x
 
 This plugin highlights Liquid Markup Blocks like `{{variable.name}}` and `{% liquid block %}` in the WYSIWYG view.
 
