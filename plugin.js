@@ -24,8 +24,8 @@ CKEDITOR.plugins.add('liquid', {
 		if (dataFilter) {
 			dataFilter.addRules({
 				text: function(text) {
-					text = text.replace(/\{\{([\w\.]+)\}\}/g, "<liquidVariable>{{$1}}</liquidVariable>");
-					text = text.replace(/\{%(.+)%\}/g, "<liquidBlock>{%$1%}</liquidBlock>");
+					text = text.replace(/\{\{(.+?)\}\}/g, "<liquidVariable>{{$1}}</liquidVariable>");
+					text = text.replace(/\{%(.+?)%\}/g, "<liquidBlock>{%$1%}</liquidBlock>");
 					return text;
 				}
 			});
